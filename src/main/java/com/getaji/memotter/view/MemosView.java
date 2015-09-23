@@ -4,6 +4,7 @@ import com.getaji.memotter.model.Memo;
 import com.getaji.memotter.util.FXUtil;
 import com.getaji.memotter.viewmodel.MemosViewModel;
 import com.getaji.memotter.viewmodel.TagViewModel;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -63,12 +64,12 @@ public class MemosView implements View {
         bottomHBox.setSpacing(4);
         bottomHBox.setAlignment(Pos.CENTER_LEFT);
         // タイトルと説明の両方が空の場合、投稿ボタンを無効にする
-        EventHandler<KeyEvent> keyEventHandler =  e -> {
+        final ChangeListener<String> inputAreaChangeListener = (obs, oldVal, newVal) -> {
             boolean emptyAnd = titleField.getText().isEmpty() && descArea.getText().isEmpty();
             postButton.setDisable(emptyAnd);
         };
-        titleField.addEventHandler(KeyEvent.KEY_RELEASED, keyEventHandler);
-        descArea.addEventHandler(KeyEvent.KEY_RELEASED, keyEventHandler);
+        titleField.textProperty().addListener(inputAreaChangeListener);
+        descArea.textProperty().addListener(inputAreaChangeListener);
         // タグフィールドを横に広げる
         HBox.setHgrow(tagsField, Priority.ALWAYS);
         postButton.getItems().addAll(postToSelectedButton, postToChildOfSelectedButton, postToRootButton);
