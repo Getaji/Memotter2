@@ -95,6 +95,13 @@ public class MemosView implements View {
             tagsFlow.getChildren().clear();
             tagsFlow.getChildren().addAll(createTagNodes(memo.getTags()));
         });
+        initBind(viewModel);
+    }
+
+    private void initBind(MemosViewModel viewModel) {
+        viewModel.titleProperty().bindBidirectional(titleField.textProperty());
+        viewModel.descriptionProperty().bindBidirectional(descArea.textProperty());
+        viewModel.tagsProperty().bindBidirectional(tagsField.textProperty());
     }
 
     private Collection<Node> createTagNodes(Collection<String> tags) {
